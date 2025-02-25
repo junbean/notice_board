@@ -1,5 +1,6 @@
 package practice.notice_board.post.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -44,9 +45,20 @@ public class PostController {
     }
 
     // 글 작성 페이지
+    /*
     @GetMapping("/new")
     public String newPostForm() {
         return "post-form"; // post-form.html 렌더링
+    }
+    */
+
+    @GetMapping("/new")
+    public String newPostForm(HttpSession session) {
+        // 세션에서 로그인한 사용자 정보 확인
+        if(session.getAttribute("loggedInUser") == null) {
+            return" redirect:/users/login";
+        }
+        return "post-form";
     }
 
     // 글 작성 처리
