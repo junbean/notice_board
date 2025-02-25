@@ -49,8 +49,8 @@ public class UserController {
     // 로그인 처리
     @PostMapping("/login")
     public String login(
-        @RequestParam String username,
-        @RequestParam String password,
+        @RequestParam(name = "username") String username,
+        @RequestParam(name = "password") String password,
         HttpSession session,
         Model model
     ) {
