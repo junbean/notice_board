@@ -9,6 +9,8 @@
         <p>작성일: <span th:text="${post.createdAt}">일자</span></p>
         <p th:text="${post.content}">내용</p>
 
+        <a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
+
         <form action="/posts/{id}/delete" method="post" th:action="@{/posts/{id}/delete(id=${post.id})}">
             <button type="submit">삭제</button>
         </form>

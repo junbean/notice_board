@@ -1,6 +1,7 @@
 package practice.notice_board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,26 @@ public class PostController {
     }
 
     // 게시글 목록 페이지
+    /*
     @GetMapping
     public String listPosts(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
+        return "post-list"; // post-list.html 렌더링
+    }
+    */
+
+    // 게시글 목록 페이지 (페이징 적용)
+    @GetMapping
+    public String listPosts(
+            Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) {
+        Page<Post> postPage = postService.getAllPosts(page);
+
+        model.addAttribute("posts", postPage.getContent()); // 현재 페이지의 게시글 목록
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+
         return "post-list"; // post-list.html 렌더링
     }
 
@@ -55,5 +73,28 @@ public class PostController {
     public String deletePost(@PathVariable(name = "id") Long id) {
         postService.deletePost(id);
         return "redirect:/posts"; // 삭제 후 목록 페이지로 이동
+    }
+
+    // 게시글 수정 페이지
+    @GetMapping("/{id}/edit")
+    public String editPostForm(
+            @PathVariable(name = "id") Long id,
+            Model model
+    ) {
+        Post post = postService.getPostById(id);
+        model.addAttribute("post", post);
+        return "post-edit";
+    }
+
+    // 게시글 수정 처리
+    @PostMapping("/{id}/update")
+    public String updatePost(
+            @PathVariable(name = "id") Long id,
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "content") String content
+    ) {
+        postService.updatePost(id, title, content);
+        return "redirect:/posts/" + id;
+        // return "redirect:/posts";
     }
 }

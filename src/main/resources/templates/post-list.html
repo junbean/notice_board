@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>게시판</title>
-</head>
-<body>
-<h1>게시판</h1>
-<a href="/posts/new">글 작성</a>
-<table border="1">
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-    </tr>
-    <tr th:each="post : ${posts}">
-        <td th:text="${post.id}"></td>
-        <td>
-            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
-        </td>
-        <td th:text="${post.createdAt}"></td>
-    </tr>
-</table>
-</body>
+    <head>
+        <title>게시판</title>
+    </head>
+    <body>
+        <h1>게시판</h1>
+        <a href="/posts/new">글 작성</a>
+        <table border="1">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성일</th>
+            </tr>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.id}"></td>
+                <td>
+                    <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+                </td>
+                <td th:text="${post.createdAt}"></td>
+            </tr>
+        </table>
+
+        <!-- 페이징 네비게이션 -->
+        <div>
+            <a th:if="${currentPage > 0}" th:href="@{/posts(page=${currentPage - 1})}">이전</a>
+            <span th:text="'Page ' + (${currentPage + 1}) + ' of ' + ${totalPages}"></span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/posts(page=${currentPage + 1})}">다음</a>
+        </div>
+    </body>
 </html>
