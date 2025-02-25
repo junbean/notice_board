@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시판</title>
+</head>
+<body>
+<h1>게시판</h1>
+<a href="/posts/new">글 작성</a>
+<table border="1">
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일</th>
+    </tr>
+    <tr th:each="post : ${posts}">
+        <td th:text="${post.id}"></td>
+        <td>
+            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+        </td>
+        <td th:text="${post.createdAt}"></td>
+    </tr>
+</table>
+</body>
+</html>
