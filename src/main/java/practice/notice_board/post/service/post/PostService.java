@@ -1,4 +1,4 @@
-package practice.notice_board.service;
+package practice.notice_board.post.service.post;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import practice.notice_board.model.Post;
-import practice.notice_board.repository.PostRepository;
-
-import java.util.List;
+import practice.notice_board.post.model.Post;
+import practice.notice_board.post.repository.post.PostRepository;
 
 @Service
 public class PostService {
@@ -29,8 +27,8 @@ public class PostService {
 
     // 게시글 목록(페이지 적용)
     public Page<Post> getAllPosts(int page) {
-        Pageable pageable = PageRequest.of(page, 10); // 한 페이지에 10개씩 표시
-        return postRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, 10); // 특정 페이지의 데이터를 10개씩 가져오겠다는 설정
+        return postRepository.findAll(pageable);    // JPA가 자동으로 LIMIT, OFFSET을 적용한 SQL을 실행
     }
 
     // 게시글 저장

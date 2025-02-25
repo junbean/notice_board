@@ -1,4 +1,4 @@
-package practice.notice_board.model;
+package practice.notice_board.post.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

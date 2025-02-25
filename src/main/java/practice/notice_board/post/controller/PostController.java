@@ -1,12 +1,12 @@
-package practice.notice_board.controller;
+package practice.notice_board.post.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import practice.notice_board.model.Post;
-import practice.notice_board.service.PostService;
+import practice.notice_board.post.model.Post;
+import practice.notice_board.post.service.post.PostService;
 
 @Controller
 @RequestMapping("/posts")
@@ -35,9 +35,10 @@ public class PostController {
     ) {
         Page<Post> postPage = postService.getAllPosts(page);
 
-        model.addAttribute("posts", postPage.getContent()); // 현재 페이지의 게시글 목록
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("posts", postPage.getContent()); // 현재 페이지의 게시글 목록을 가져옴
+        model.addAttribute("currentPage", page);            // 현재 페이지 번호를 나타냄
+        model.addAttribute("totalPages", postPage.getTotalPages()); // 전체 게시글 개수를 기반으로 전체 페이지 개수를 계산함
+        // postPage.getTotalElements()	COUNT(*) FROM posts 결과, 전체 게시글 개수
 
         return "post-list"; // post-list.html 렌더링
     }
