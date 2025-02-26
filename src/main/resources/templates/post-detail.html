@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>게시글 상세</title>
     </head>
     <body>
+        <!-- 공통 네비게이션 바 포함 -->
+        <div th:replace="navbar :: body"></div>
+
         <h1>게시글 상세</h1>
         <h2 th:text="${post.title}">제목</h2>
         <p>작성일: <span th:text="${post.createdAt}">일자</span></p>
         <p th:text="${post.content}">내용</p>
 
-        <a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
+        <!-- 로그인한 사용자 중에서 게시글 작성자만 수정/삭제 가능 -->
+        <span sec:authorize="isAuthenticated()">
+            <span th:if="${#authentication.name == post.author}">
+                <a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
 
-        <form action="/posts/{id}/delete" method="post" th:action="@{/posts/{id}/delete(id=${post.id})}">
-            <button type="submit">삭제</button>
-        </form>
+                <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post">
+                    <button type="submit">삭제</button>
+                </form>
+            </span>
+        </span>
 
         <a href="/posts">목록으로</a>
     </body>

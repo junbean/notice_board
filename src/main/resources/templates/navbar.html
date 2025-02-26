@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>네비게이션 바</title>
+    </head>
+    <body>
+        <nav>
+            <a href="/posts">홈</a>
+
+            <!-- 로그인한 사용자만 보이는 메뉴 -->
+            <span sec:authorize="isAuthenticated()">
+                    <a href="/posts/new">글 작성</a>
+                    <a href="/users/logout">로그아웃</a>
+                    <span>안녕하세요, <span sec:authentication="name"></span>님!</span>
+                </span>
+
+            <!-- 로그인하지 않은 사용자만 보이는 메뉴 -->
+            <span sec:authorize="isAnonymous()">
+                    <a href="/users/login">로그인</a>
+                    <a href="/users/register">회원가입</a>
+                </span>
+        </nav>
+        <hr>
+    </body>
+</html>

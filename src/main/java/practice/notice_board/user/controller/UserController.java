@@ -1,17 +1,12 @@
 package practice.notice_board.user.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import practice.notice_board.user.model.User;
-import practice.notice_board.user.service.user.UserService;
-
-import java.util.Optional;
+import practice.notice_board.user.service.UserService;
 
 @Controller
 @RequestMapping("/users")
@@ -46,7 +41,8 @@ public class UserController {
         return "login"; // login.html 렌더링
     }
 
-    // 로그인 처리
+    // 로그인 처리 - spring security가 알아서 처리
+    /*
     @PostMapping("/login")
     public String login(
         @RequestParam(name = "username") String username,
@@ -63,11 +59,14 @@ public class UserController {
             return "login";
         }
     }
+    */
 
-    // 로그아웃 처리
+    // 로그아웃 처리 - spring security가 알아서 처리
+    /*
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 삭제
         return "redirect:/posts"; // 로그아웃 후 게시글 목록으로 이동
     }
+    */
 }

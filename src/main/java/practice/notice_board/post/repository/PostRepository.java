@@ -1,4 +1,4 @@
-package practice.notice_board.post.repository.post;
+package practice.notice_board.post.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

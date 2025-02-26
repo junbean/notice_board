@@ -1,4 +1,4 @@
-package practice.notice_board.post.service.post;
+package practice.notice_board.post.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import practice.notice_board.post.model.Post;
-import practice.notice_board.post.repository.post.PostRepository;
+import practice.notice_board.post.repository.PostRepository;
 
 @Service
 public class PostService {
@@ -32,8 +32,8 @@ public class PostService {
     }
 
     // 게시글 저장
-    public void addPost(String title, String content) {
-        Post post = new Post(title, content);
+    public void addPost(String title, String content, String author) {
+        Post post = new Post(title, content, author);
         postRepository.save(post); // JPA가 자동으로 INSERT 실행
     }
 
@@ -43,15 +43,24 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void updatePost(Long id, String title, String content) {
+    public void updatePost(Long id, String title, String content, String username) {
         Post post = getPostById(id);
+        if(!post.getAuthor().equals(username)) {
+            throw new IllegalStateException("게시글 작성자만 수정할 수 있습니다");
+        }
+
         post.setTitle(title);
         post.setContent(content);
         postRepository.save(post);
     }
+
+    @Transactional
+    public void deletePost(Long id, String username) {
+        Post post = getPostById(id);
+        if(!post.getAuthor().equals(username)) {
+            throw new IllegalStateException("게시글 작성자만 삭제할 수 있습니다");
+        }
+        postRepository.deleteById(id);
+    }
+
 }

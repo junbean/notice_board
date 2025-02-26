@@ -23,6 +23,9 @@ public class Post {
     @Column(columnDefinition = "TEXT", nullable = false)    // DB에서 TEXT 사용 -> 긴 글 저장 가능
     private String content;
 
+    @Column(nullable = false)
+    private String author;
+
     @Column(updatable = false)      // 이 필드는 한 번 저장되면 수정할 수 없음
     private LocalDateTime createdAt;
 
@@ -31,8 +34,9 @@ public class Post {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Post(String title, String content) {
+    public Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
+        this.author = author;
     }
 }
